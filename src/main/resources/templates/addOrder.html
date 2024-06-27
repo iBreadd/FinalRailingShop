@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addOrder.title}"></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        h1 {
+            font-size: 1.7rem;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 1.3rem;
+        }
+        body {
+             background: url('/img/bcg.jpg') no-repeat center center fixed;
+             background-size: cover;
+         }
+         .content-wrapper {
+             background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачен бял фон */
+             padding: 20px;
+             border-radius: 10px;
+         }
+         .navbar {
+             background-color: #343a40;
+         }
+         .navbar-brand, .nav-link, .logout-btn {
+             color: #fff !important;
+         }
+         .navbar-brand:hover, .nav-link:hover {
+             color: #ffc107 !important;
+         }
+         .flag-icon {
+             width: 24px;
+             height: auto;
+         }
+         .nav-item.dropdown .dropdown-menu {
+             background-color: #343a40;
+             border: none;
+         }
+         .nav-item.dropdown .dropdown-item {
+             color: #fff;
+         }
+         .nav-item.dropdown .dropdown-item:hover {
+             background-color: #495057;
+             color: #ffc107;
+         }
+         .logout-btn {
+             background-color: #dc3545;
+             border: none;
+             color: #fff;
+             cursor: pointer;
+         }
+         .logout-btn:hover {
+             background-color: #c82333;
+         }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Railing Shop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/all" th:text="#{navbar.all}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/home" th:text="#{navbar.home}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'?lang=bg'}">
+                        <img th:src="@{/img/bg.png}" class="flag-icon">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'?lang=en'}">
+                        <img th:src="@{/img/eng.jpg}" class="flag-icon">
+                    </a>
+                </li>
+                <li class="nav-item dropdown ms-3">
+                    <a class="nav-link dropdown-toggle" id="menuDropdownButton" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{menu}">
+                        Menu
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="menuDropdownButton">
+                        <li><a class="dropdown-item" th:href="@{/shop/accountDetails}" th:text="#{navbar.profile}">View Account Details</a></li>
+                        <li><a class="dropdown-item" th:href="@{/shop/userOrders}" th:text="#{userOrders.title}">Orders</a></li>
+                        <li><a class="dropdown-item" th:href="@{/favourites}" th:text="#{navbar.favourites}">Продукти за сравнение</a></li>
+                        <li><a class="dropdown-item" th:href="@{/comparison}" th:text="#{navbar.comparison}">Продукти за сравнение</a></li>
+                        <li><a class="dropdown-item" th:href="@{/messages/inbox}" th:text="#{navbar.notices}">Известия</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item ms-3">
+                    <form class="d-flex" th:action="@{/shop/logout}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="submit" th:value="#{navbar.logout}" class="btn btn-info logout-btn"/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container content-wrapper">
+    <h1 th:text="#{addOrder.h1}">Преглед на Поръчката</h1>
+    <div th:if="${message}">
+        <div class="alert alert-warning" th:text="${message}"></div>
+    </div>
+    <h2>
+        <span th:text="#{addOrder.h2}+ ': '"></span>
+        <span th:text="${user.firstName}" class="username"></span>
+    </h2>
+    <h2>
+        <span th:text="#{addOrder.city}+ ': '"></span>
+        <span th:text="${user.city}" class="city"></span>
+    </h2>
+    <h2>
+        <span th:text="#{addOrder.postalCode}+ ': '"></span>
+        <span th:text="${user.postalCode}" class="postalCode"></span>
+    </h2>
+    <h2>
+        <span th:text="#{addOrder.address}+ ': '"></span>
+        <span th:text="${user.address}" class="address"></span>
+    </h2>
+    <h2>
+        <span th:text="#{addOrder.phone}+ ': '"></span>
+        <span th:text="${user.phone}" class="phone"></span>
+    </h2>
+    <h1 th:text="#{addOrder.PC}">Продукти в Количката</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th th:text="#{addOrder.Photo}">Снимка</th>
+            <th th:text="#{addOrder.ProductName}">Продукт</th>
+            <th th:text="#{addOrder.Color}">Цвят</th>
+            <th th:text="#{addOrder.Material}">Материал</th>
+            <th th:text="#{addOrder.Quantity}">Количество</th>
+            <th th:text="#{addOrder.Price}">Цена</th>
+            <th th:text="#{addOrder.TotalPrice}">Обща Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderProduct : ${cartItems}">
+            <td><img th:src="${orderProduct.product.imageUrl}" alt="Product Image" width="100"/></td>
+            <td th:text="${orderProduct.product.name}"></td>
+            <td th:text="${orderProduct.product.color}"></td>
+            <td th:text="${orderProduct.product.material}"></td>
+            <td th:text="${orderProduct.quantity}"></td>
+            <td th:text="${orderProduct.product.price}"></td>
+            <td th:text="${orderProduct.product.price.multiply(new java.math.BigDecimal(orderProduct.quantity))}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h3 th:text="'Обща Цена: ' + ${cart.totalPrice}"></h3>
+
+    <form th:action="@{/order/addOrder}" method="post">
+        <button type="submit" class="btn btn-primary" th:text="#{addOrder.submit}">Потвърди Поръчката</button>
+    </form>
+    <a href="/cart" class="btn btn-secondary" th:text="#{addOrder.back}">Назад към Количката</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>

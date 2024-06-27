@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{editProduct.title}">Edit Product</title>
+<!--    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        .description-cell {
+            word-wrap: break-word;
+            word-break: break-all;
+            max-width: 200px; /* Adjust as needed */
+            white-space: pre-wrap;
+        }
+        body {
+            background: url('/img/bcg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачен бял фон */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand, .nav-link, .logout-btn {
+            color: #fff !important;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        .flag-icon {
+            width: 24px;
+            height: auto;
+        }
+        .nav-item.dropdown .dropdown-menu {
+            background-color: #343a40;
+            border: none;
+        }
+        .nav-item.dropdown .dropdown-item {
+            color: #fff;
+        }
+        .nav-item.dropdown .dropdown-item:hover {
+            background-color: #495057;
+            color: #ffc107;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Railing Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/home" th:text="#{navbar.home}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/all" th:text="#{navbar.all}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/shop/admins}" th:text="#{navbar.admins}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/shop/products}" th:text="#{navbar.products}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/shop/orders}" th:text="#{navbar.ordersAdmins}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/messages/support}" th:text="#{navbar.support}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'?lang=bg'}">
+                    <img th:src="@{/img/bg.png}" class="flag-icon">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'?lang=en'}">
+                    <img th:src="@{/img/eng.jpg}" class="flag-icon">
+                </a>
+            </li>
+            <form class="d-flex" th:action="@{/shop/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="submit" th:value="#{navbar.logout}" class="btn btn-info logout-btn"/>
+            </form>
+        </ul>
+
+    </div>
+</nav>
+<div class="container content-wrapper">
+    <h1 th:text="#{editProduct.title}">Edit Product</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 th:text="#{editProduct.currentProduct}">Current Product:</h4>
+            <table class="table">
+                <tr>
+                    <th th:text="#{editProduct.name}">Name:</th>
+                    <td th:text="${product.name}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.price}">Price:</th>
+                    <td th:text="${product.price}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.description}">Description:</th>
+                    <td class="description-cell" th:text="${product.description}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.manufacturer}">Manufacturer:</th>
+                    <td th:text="${product.manufacturer}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.material}">Material:</th>
+                    <td th:text="${product.material}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.color}">Color:</th>
+                    <td th:text="${product.color}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.quantity}">Quantity:</th>
+                    <td th:text="${product.quantity}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.available}">Available:</th>
+                    <td><input type="checkbox" th:checked="${product.available}" disabled/></td>
+                </tr>
+                <tr>
+                    <th th:text="#{editProduct.currentImage}">Current Image:</th>
+                    <td><img th:src="${product.imageUrl}" alt="Product Image" width="100"/></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h4 th:text="#{editProduct.description2}">Edit Product:</h4>
+            <form th:action="@{/shop/editProduct/{id}(id=${product.id})}" th:object="${product}" method="post"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name" th:text="#{editProduct.name}">Name:</label>
+                    <input type="text" th:field="*{name}" class="form-control" id="name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="price" th:text="#{editProduct.price}">Price:</label>
+                    <input type="number" th:field="*{price}" class="form-control" id="price" required/>
+                </div>
+                <div class="form-group">
+                    <label for="description" th:text="#{editProduct.description}">Description:</label>
+                    <textarea th:field="*{description}" class="form-control" id="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="manufacturer" th:text="#{editProduct.manufacturer}">Manufacturer:</label>
+                    <input type="text" th:field="*{manufacturer}" class="form-control" id="manufacturer" required/>
+                </div>
+                <div class="form-group">
+                    <label for="material" th:text="#{editProduct.material}">Material:</label>
+                    <select th:field="*{material}" class="form-control" id="material">
+                        <option th:each="material : ${T(com.example.RailingShop.Enums.ProductMaterial).values()}"
+                                th:value="${material}" th:text="${material}"
+                                th:selected="${material == product.material}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="color" th:text="#{editProduct.color}">Color:</label>
+                    <select th:field="*{color}" class="form-control" id="color">
+                        <option th:each="color : ${T(com.example.RailingShop.Enums.ProductColor).values()}"
+                                th:value="${color}" th:text="${color}"
+                                th:selected="${color == product.color}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity" th:text="#{editProduct.quantity}">Quantity:</label>
+                    <input type="number" th:field="*{quantity}" class="form-control" id="quantity" required/>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" th:field="*{available}" class="form-check-input" id="available"/>
+                        <label class="form-check-label" for="available" th:text="#{editProduct.available}">Available</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="imageFile" th:text="#{editProduct.changeImage}">Change Image:</label>
+                    <input type="file" id="imageFile" name="imageFile"/>
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{editProduct.submit}">Save</button>
+                <a href="/shop/products" class="btn btn-secondary" th:text="#{editProduct.back}">Back to Products</a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

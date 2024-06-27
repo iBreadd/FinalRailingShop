@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{addProduct.title}">Добавяне на продукт</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('/img/bcg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачен бял фон */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand, .nav-link, .logout-btn {
+            color: #fff !important;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        .flag-icon {
+            width: 24px;
+            height: auto;
+        }
+        .nav-item.dropdown .dropdown-menu {
+            background-color: #343a40;
+            border: none;
+        }
+        .nav-item.dropdown .dropdown-item {
+            color: #fff;
+        }
+        .nav-item.dropdown .dropdown-item:hover {
+            background-color: #495057;
+            color: #ffc107;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Railing Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/home" th:text="#{navbar.home}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/shop/all" th:text="#{navbar.all}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/panel" th:text="#{adminPanel.title}"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'?lang=bg'}">
+                    <img th:src="@{/img/bg.png}" class="flag-icon">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'?lang=en'}">
+                    <img th:src="@{/img/eng.jpg}" class="flag-icon">
+                </a>
+            </li>
+            <form class="d-flex" th:action="@{/shop/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="submit" th:value="#{navbar.logout}" class="btn btn-info logout-btn"/>
+            </form>
+        </ul>
+
+    </div>
+</nav>
+<div class="container content-wrapper">
+    <h1 class="mb-4" th:text="#{addProduct.description2}">Добавяне на продукт</h1>
+    <form th:action="@{/shop/addProduct}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name" th:text="#{addProduct.name}">Име</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description" th:text="#{addProduct.description}">Описание</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price" th:text="#{addProduct.price}">Цена</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity" th:text="#{addProduct.quantity}">Количество</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <div class="form-group form-check">
+            <input class="form-check-input" id="available" name="available" type="checkbox">
+            <label class="form-check-label" for="available" th:text="#{addProduct.available}">Наличен</label>
+        </div>
+        <div class="form-group">
+            <label for="color" th:text="#{addProduct.color}">Цвят</label>
+            <select class="form-control" id="color" name="color" required>
+                <option value="" disabled selected th:text="#{addProduct.selectColor}">Изберете цвят</option>
+                <option th:each="color : ${T(com.example.RailingShop.Enums.ProductColor).values()}" th:value="${color}" th:text="${color}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="material" th:text="#{addProduct.material}">Материал</label>
+            <select class="form-control" id="material" name="material" required>
+                <option value="" disabled selected th:text="#{addProduct.selectMaterial}">Изберете материал</option>
+                <option th:each="material : ${T(com.example.RailingShop.Enums.ProductMaterial).values()}" th:value="${material}" th:text="${material}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="manufacturer" th:text="#{addProduct.manufacturer}">Производител</label>
+            <input class="form-control" id="manufacturer" name="manufacturer" required>
+        </div>
+        <div class="form-group">
+            <label for="imageFile" th:text="#{addProduct.image}">Изображение</label>
+            <input type="file" class="form-control-file" id="imageFile" name="imageFile" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="#{addProduct.submit}">Добави продукт</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>

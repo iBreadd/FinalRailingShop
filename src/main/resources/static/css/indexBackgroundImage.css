@@ -1,0 +1,9 @@
+.jumbotron {
+    background-image: url('/assets/img/background-railing.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+.jumbotron h1 {
+    font-size: 4em;
+}

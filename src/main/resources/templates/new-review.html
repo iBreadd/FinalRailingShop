@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Review</title>
+</head>
+<body>
+<h1>New Review</h1>
+<form th:action="@{/shop/products/{productId}/reviews(productId=${review.product.id})}" th:object="${review}" method="post">
+    <div>
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" th:field="*{rating}" min="1" max="5"/>
+    </div>
+    <div>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" th:field="*{comment}"></textarea>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+</body>
+</html>

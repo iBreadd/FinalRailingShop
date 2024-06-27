@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{login.title}">Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .background-image {
+            background-image: url('/img/bcg.jpg'); /* Сменете с вашия път към изображението */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 56px 0; /* Регулира padding спрямо височината на navbar */
+        }
+        .card {
+            width: 100%;
+            max-width: 400px; /* Примерно, може да настройвате според вашите нужди */
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачен бял фон */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тен на картата */
+        }
+        .flag-icon {
+            width: 24px;
+            height: auto;
+        }
+        /* Стилове за бутоните */
+        .btn-custom {
+            font-weight: bold;
+            color: #fff; /* Бял цвят на текста за всички бутони */
+        }
+        .btn-login {
+            background-color: #28a745; /* Зелен цвят за бутон Login */
+            border-color: #28a745;
+        }
+        .btn-login:hover {
+            background-color: #1e7e34; /* По-тъмно зелен при ховър */
+            border-color: #1e7e34;
+        }
+        .btn-register {
+            background-color: #007bff; /* Син цвят за бутон Register */
+            border-color: #007bff;
+        }
+        .btn-register:hover {
+            background-color: #0056b3; /* По-тъмен син при ховър */
+            border-color: #0056b3;
+        }
+        .btn-guest {
+            background-color: #ffc107; /* Жълт цвят за бутон Продължи като гост */
+            border-color: #ffc107;
+        }
+        .btn-guest:hover {
+            background-color: #e0a800; /* По-тъмна жълта при ховър */
+            border-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+<div class="background-image">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center" th:text="#{login.description}">Login</h3>
+        </div>
+        <div class="card-body">
+            <form th:object="${user}" th:action="@{/shop/login}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <div class="mb-3">
+                    <label for="username" class="form-label" th:text="#{login.username}">Username</label>
+                    <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Enter your username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label" th:text="#{login.password}">Password</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-login btn-custom mr-2" name="submit" th:text="#{login.submit}">Login</button>
+                <a href="/shop/register" class="btn btn-register btn-custom" role="button" th:text="#{login.register}">Register</a>
+                <a href="/shop/home" class="btn btn-guest btn-custom" role="button" th:text="#{login.guest}">Продължи като гост</a>
+                <a th:href="@{'?lang=bg'}">
+                    <img th:src="@{/img/bg.png}" class="flag-icon">
+                </a>
+                <a th:href="@{'?lang=en'}">
+                    <img th:src="@{/img/eng.jpg}" class="flag-icon">
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>

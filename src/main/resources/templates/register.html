@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{register.title}">Registration Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .background-image {
+            background-image: url('/img/bcg.jpg'); /* Сменете с вашия път към изображението */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            width: 100%;
+            max-width: 500px; /* Примерно, може да настройвате според вашите нужди */
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачен бял фон */
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            max-height: 90%;
+        }
+        .flag-icon {
+            width: 24px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="background-image">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center" th:text="#{register.description}">Registration Form</h3>
+        </div>
+        <div class="text-center">
+            <h3 th:text="#{register.h3}">Already have an account?</h3>
+            <a th:href="@{/shop/login}" class="btn btn-warning mb-4" th:text="#{register.login}">Login</a>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/shop/register}" th:object="${user}" method="post">
+                <div>
+                    <p style="color: red" th:text="${error}"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label" th:text="#{register.firstName}">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" th:required="true" th:value="*{firstName}">
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label" th:text="#{register.lastName}">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" th:required="true" th:value="*{lastName}">
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label" th:text="#{register.username}">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" th:required="true" th:value="*{username}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label" th:text="#{register.email}">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" th:required="true" th:value="*{email}">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label" th:text="#{register.phone}">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone" th:required="true" th:value="*{phone}">
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label" th:text="#{register.city}">City</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city" th:required="true" th:value="*{city}">
+                </div>
+                <div class="mb-3">
+                    <label for="postalCode" class="form-label" th:text="#{register.postalCode}">Postal Code</label>
+                    <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Enter your postal code" th:required="true" th:value="*{postalCode}">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label" th:text="#{register.address}">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" th:required="true" th:value="*{address}">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label" th:text="#{register.password}">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" th:required="true" th:value="*{password}">
+                    <div th:if="${#fields.hasErrors('password')}"><span th:errors="*{password}" class="text-danger"></span></div>
+                </div>
+                <button type="submit" class="btn btn-warning mr-2" name="submit" th:text="#{register.submit}">Register</button>
+                <button type="reset" class="btn btn-secondary" name="reset" th:text="#{register.reset}">Reset</button>
+                <a th:href="@{'?lang=bg'}">
+                    <img th:src="@{/img/bg.png}" class="flag-icon">
+                </a>
+                <a th:href="@{'?lang=en'}">
+                    <img th:src="@{/img/eng.jpg}" class="flag-icon">
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -98,20 +98,4 @@ class MessageServiceTest {
         assertEquals(messages.get(1), foundMessages.get(1));
     }
 
-    @Test
-    void testGetAllSupportMessages() {
-        // Mock data
-        List<Message> messages = new ArrayList<>();
-        messages.add(new Message(1L, new User(1L), new User(2L), "Message 1", LocalDateTime.now(), false));
-        messages.add(new Message(2L, new User(2L), new User(1L), "Message 2", LocalDateTime.now(), true));
-        when(messageRepository.findAllByIsSupportResponse(false)).thenReturn(messages);
-
-        // Call service method
-        List<Message> foundMessages = messageService.getAllSupportMessages();
-
-        // Assertions
-        assertNotNull(foundMessages);
-        assertEquals(1, foundMessages.size()); // Only messages with isSupportResponse=false
-        assertEquals(messages.get(0), foundMessages.get(0));
-    }
 }

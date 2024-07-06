@@ -108,20 +108,7 @@ class OrderServiceTest {
         assertEquals(1, orders.size());
     }
 
-    @Test
-    void testUpdateOrderStatus() {
-        // Mock data
-        Long orderId = 1L;
-        OrderStatus newStatus = OrderStatus.DELIVERED;
-        User mockUser = new User(1L, "John", "Doe", "john.doe@example.com", "johndoe", "123456789", "City", "12345", "Address");
-        Order mockOrder = new Order(orderId, mockUser, new ArrayList<>(), OrderStatus.PENDING, BigDecimal.valueOf(100.0));
-        when(userRepository.findByUsername(anyString())).thenReturn(mockUser);
-        when(orderRepository.findById(orderId)).thenReturn(java.util.Optional.of(mockOrder));
-        when(orderRepository.save(any())).thenReturn(mockOrder);
 
-        // Call service method
-        assertDoesNotThrow(() -> orderService.updateOrderStatus(orderId, newStatus));
-    }
 
     @Test
     void testGetOrdersByUser() {

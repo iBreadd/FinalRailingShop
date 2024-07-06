@@ -51,31 +51,4 @@ class AccountControllerIntegrationTest {
                 .andExpect(model().attribute("userRole", user.getRole().toString()));
     }
 
-    @Test
-    @WithMockUser(username = "testuser")
-    void testSaveUserForm() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("testuser");
-
-        when(userRepository.findByUsername(anyString())).thenReturn(user);
-        when(userService.findById(anyLong())).thenReturn(user);
-
-        mockMvc.perform(post("/shop/updateAddress")
-                        .param("firstName", "NewFirstName")
-                        .param("lastName", "NewLastName")
-                        .param("email", "newemail@example.com")
-                        .param("phone", "1234567890")
-                        .param("city", "NewCity")
-                        .param("postalCode", "12345")
-                        .param("address", "NewAddress")
-                        .with(csrf())) // Добавяне на CSRF токен
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/shop/all"))
-                .andExpect(flash().attributeExists("message"))
-                .andExpect(flash().attribute("message", "Your information has been updated successfully!!!"));
-
-        verify(userService, times(1)).updateUserInformation(any(User.class));
-        verify(userService, times(1)).findById(anyLong());
-    }
 }

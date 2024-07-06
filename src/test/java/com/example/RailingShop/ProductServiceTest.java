@@ -1,4 +1,4 @@
-package com.example.RailingShop.Services;
+package com.example.RailingShop;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -12,6 +12,7 @@ import com.example.RailingShop.Repositories.DeletedProductRepository;
 import com.example.RailingShop.Repositories.OrderProductRepository;
 import com.example.RailingShop.Repositories.ProductRepository;
 import com.example.RailingShop.Repositories.ReviewRepository;
+import com.example.RailingShop.Services.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
